@@ -54,7 +54,7 @@ jobs:
         run: npm ci
 
       - name: Build
-        run: npx vite build --config vite.config.static.ts
+        run: npx vite build --config vite.config.ts
 
       - name: Copy 404.html for SPA routing
         run: cp dist/index.html dist/404.html
