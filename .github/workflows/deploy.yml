@@ -1,0 +1,82 @@
+# Instrucțiuni Deploy GitHub Pages
+
+  ## Pași pentru activarea deploy-ului automat:
+
+  ### 1. Creați fișierul workflow
+  - Pe GitHub, mergeți la repository-ul blitz-business
+  - Apăsați **Add file** → **Create new file**
+  - Scrieți numele: `.github/workflows/deploy.yml`
+  - Copiați conținutul de mai jos în fișier
+  - Apăsați **Commit new file**
+
+  ### 2. Activați GitHub Pages
+  - Mergeți la **Settings** → **Pages**
+  - La **Source** selectați **GitHub Actions**
+
+  ### 3. Aplicația va fi disponibilă la:
+  `https://Rodica2308.github.io/blitz-business/`
+
+  ---
+
+  ## Conținutul fișierului deploy.yml:
+
+  ```yaml
+  name: Deploy to GitHub Pages
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: "pages"
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build
+        run: npx vite build --config vite.config.static.ts
+
+      - name: Copy 404.html for SPA routing
+        run: cp dist/index.html dist/404.html
+
+      - name: Setup Pages
+        uses: actions/configure-pages@v5
+
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: dist
+
+  deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
+
+  ```
+  
