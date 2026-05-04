@@ -1,27 +1,4 @@
-# Instrucțiuni Deploy GitHub Pages
-
-  ## Pași pentru activarea deploy-ului automat:
-
-  ### 1. Creați fișierul workflow
-  - Pe GitHub, mergeți la repository-ul blitz-business
-  - Apăsați **Add file** → **Create new file**
-  - Scrieți numele: `.github/workflows/deploy.yml`
-  - Copiați conținutul de mai jos în fișier
-  - Apăsați **Commit new file**
-
-  ### 2. Activați GitHub Pages
-  - Mergeți la **Settings** → **Pages**
-  - La **Source** selectați **GitHub Actions**
-
-  ### 3. Aplicația va fi disponibilă la:
-  `https://Rodica2308.github.io/blitz-business/`
-
-  ---
-
-  ## Conținutul fișierului deploy.yml:
-
-  ```yaml
-  name: Deploy to GitHub Pages
+name: Deploy to GitHub Pages
 
 on:
   push:
@@ -77,6 +54,3 @@ jobs:
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
-
-  ```
-  
